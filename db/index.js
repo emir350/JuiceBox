@@ -26,6 +26,7 @@ async function createUser({
   }
 }
 
+
 async function updateUser(id, fields = {}) {
   // build the set string
   const setString = Object.keys(fields).map(
@@ -77,6 +78,20 @@ async function getUserById(userId) {
     }
 
     user.posts = await getPostsByUser(userId);
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserByUsername(username) {
+  try {
+    const { rows: [user] } = await client.query(`
+      SELECT *
+      FROM users
+      WHERE username=$1;
+    `, [username]);
 
     return user;
   } catch (error) {
@@ -318,4 +333,5 @@ module.exports = {
   addTagsToPost,
   getPostById,
   getPostsByTagName,
+  getUserByUsername,
 }
