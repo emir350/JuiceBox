@@ -1,6 +1,11 @@
 const { Client } = require('pg') // imports the pg module
 
 const client = new Client({
+  host: process.env.DB_HOSTNAME || undefined,
+  port: process.env.DB_PORT || undefined,
+  database: process.env.DB_NAME || undefined,
+  username: process.env.DB_USERNAME || undefined,
+  password: process.env.DB_PASSWORD || undefined,
   connectionString: process.env.DB_URL || 'postgres://localhost:5432/juicebox-dev',
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : undefined,
 });
